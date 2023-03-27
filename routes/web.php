@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('survey-form/{survey:slug}', [SurveyController::class,'getSurveyForm']);
+Route::post('survey-form/{survey:slug}', [SurveyController::class,'storeSurveyAnswer'])->name('surveyform.submit');

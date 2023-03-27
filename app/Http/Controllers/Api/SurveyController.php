@@ -45,6 +45,7 @@ class SurveyController extends Controller
         $question = Question::create($validated_data);
         return $question;
     }
+    
     /**
      * Display the specified resource.
      */

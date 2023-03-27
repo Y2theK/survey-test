@@ -13,4 +13,9 @@ class SurveyController extends Controller
         $surveys = Survey::with('questions')->findOrFail($survey->id);
         return view('surveyForm', compact('survey'));
     }
+    public function storeSurveyAnswer(Request $request, Survey $survey)
+    {
+        dump($survey);
+        return $request->all();
+    }
 }
