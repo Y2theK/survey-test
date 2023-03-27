@@ -1,5 +1,5 @@
 @extends('Layout.layout')
-
+@section('title', 'Survey Success')
 
 @section('content')
 <div class="p-12">

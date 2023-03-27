@@ -14,7 +14,7 @@
 
   <h4>Someone answered your survey. Checkout now.</h4>
   @foreach ($mailData['answers'] as $a)
-  <p class="mt-1 text-sm leading-6 text-gray-600">{{ $a->question->question}} - {{ $a->answer }}</p>
+  <p>{{ $a->question->question}} - {{ $a->answer }}</p>
   @endforeach
 
 

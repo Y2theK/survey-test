@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Helper\ApiResponseHelper;
 use App\Models\Survey;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class SurveyController extends Controller
     public function index()
     {
         $surveys = Survey::all();
-        return response()->json([ 'surveys' =>  SurveyResource::collection($surveys)], 200);
+        return ApiResponseHelper::success('Get All Surveys', ['surveys' =>  SurveyResource::collection($surveys)], 200);
     }
 
     public function store(SurveyCreateRequest $request)
@@ -32,7 +33,7 @@ class SurveyController extends Controller
             $question['survey_id'] = $survey->id;
             $this->createQuestion($question);
         }
-        return new SurveyResource($survey);
+        return ApiResponseHelper::success('Survey Created', new SurveyResource($survey), 201);
     }
     private function createQuestion($question)
     {
@@ -51,7 +52,7 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey)
     {
-        return new SurveyResource($survey);
+        return ApiResponseHelper::success('Get Survey', new SurveyResource($survey), 200);
     }
 
   
@@ -75,8 +76,9 @@ class SurveyController extends Controller
         }
         $survey->questions()->delete();
         $survey->delete();
-        return response()->json([
-            'message' => 'Survey deleted'
-        ], 200);
+        // return response()->json([
+        //     'message' => 'Survey deleted'
+        // ], 200);
+        return ApiResponseHelper::success('Survey Deleted', null, 200);
     }
 }

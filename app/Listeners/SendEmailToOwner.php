@@ -2,8 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\SurveySubmittedEvent;
 use App\Mail\SurveySubmittedMail;
+use Illuminate\Support\Facades\Log;
+use App\Events\SurveySubmittedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -23,16 +24,17 @@ class SendEmailToOwner
      */
     public function handle(SurveySubmittedEvent $event): void
     {
-        $ownerEmail  = $event->data['owner']->email;
-        $mailData = [
-            'survey' => $event->data['survey'],
-            'owner' =>  $event->data['owner'],
-            'answers' =>  $event->data['answers'],
-        ];
         try {
-            Mail::to($ownerEmail)->send(new SurveySubmittedMail($mailData));
-        } catch (\Throwable $th) {
-            throw $th;
+            $ownerEmail  = $event->data['owner']->email;
+            $mailData = [
+                'survey' => $event->data['survey'],
+                'owner' =>  $event->data['owner'],
+                'answers' =>  $event->data['answers'],
+            ];
+        
+            Mail::to('a@gmail.com')->send(new SurveySubmittedMail($mailData));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 }

@@ -1,5 +1,5 @@
 @extends('Layout.layout')
-
+@section('title', 'Home')
 @section('content')
 <div class="p-12">
   <form method="POST" action="{{route('surveyform.submit',$survey->slug)}}">

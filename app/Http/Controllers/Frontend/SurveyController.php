@@ -34,9 +34,8 @@ class SurveyController extends Controller
             }
         }
 
-
         // send mail
-        $answers = QuestionAnswer::with('question')->where('answer_id', $answer->id)->get();
+        $answers = QuestionAnswer::with('question')->where('answer_id', $answer->id)->first();
         $data = [
             'survey' => $survey,
             'owner' => $survey->user,
