@@ -35,12 +35,13 @@ class SurveyController extends Controller
         }
 
         // send mail
-        $answers = QuestionAnswer::with('question')->where('answer_id', $answer->id)->first();
+        $answers = QuestionAnswer::with('question')->where('answer_id', $answer->id)->get();
         $data = [
             'survey' => $survey,
             'owner' => $survey->user,
             'answers' => $answers
         ];
+
         event(new SurveySubmittedEvent($data));
         return view('surveySuccess');
     }

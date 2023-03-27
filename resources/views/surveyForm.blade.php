@@ -11,12 +11,25 @@
           you share.</p>
         <div class="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6 ">
           @foreach ($survey->questions as $item)
+
           <div class="sm:col-span-3 my-4">
             <label for="{{ $item->id }}" class="block text-sm font-medium leading-6 text-gray-900"> {{ $item->question
               }}</label>
             <div class="mt-1">
-              <input type="{{ $item->type }}" name="answers[{{$item->id}}] " id="{{ $item->id }}" required
+
+              @if ($item->type === 'date')
+              <input type="date" name="answers[{{$item->id}}] " id="{{ $item->id }}" required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              @elseif ($item->type === 'number')
+              <input type="number" name="answers[{{$item->id}}] " id="{{ $item->id }}" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              @else
+              <input type="text" name="answers[{{$item->id}}] " id="{{ $item->id }}" required
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+
+              @endif
+
+
 
             </div>
             @endforeach
