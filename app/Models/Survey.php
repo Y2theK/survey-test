@@ -14,10 +14,10 @@ class Survey extends Model
     
     public function questions()
     {
-        return $this->hasMany(Question::class, 'survey_id');
+        return $this->hasMany(Question::class);
     }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

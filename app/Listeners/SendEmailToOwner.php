@@ -26,9 +26,13 @@ class SendEmailToOwner
         $ownerEmail  = $event->data['owner']->email;
         $mailData = [
             'survey' => $event->data['survey'],
-            'owner' =>  $event->data['owner']
+            'owner' =>  $event->data['owner'],
+            'answers' =>  $event->data['answers'],
         ];
-
-        Mail::to($ownerEmail)->send(new SurveySubmittedMail($mailData));
+        try {
+            Mail::to($ownerEmail)->send(new SurveySubmittedMail($mailData));
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

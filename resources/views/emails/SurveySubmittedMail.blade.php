@@ -9,12 +9,15 @@
 
 <body>
 
-  <h1>Your "{{ $mailData['survey']->name }}" got answer!!</h1>
-
   <h3>Dear {{ $mailData['owner']->name }}, </h3>
 
-  <h5>Someone answered your survey. Go checkout now..</h5>
+  <h4>Someone answered your survey. Checkout now..</h4>
+  @foreach ($mailData['answers'] as $a)
+  <p class="mt-1 text-sm leading-6 text-gray-600">{{ $a->question->question}} - {{ $a->answer }}</p>
+  @endforeach
 
+
+  <p>--------</p>
   <p>Thank You.</p>
 
 </body>
