@@ -24,7 +24,7 @@ class SurveyController extends Controller
         $validated_data = $request->validated();
         $survey = Survey::create([
             'name' => $validated_data['name'],
-            'slug' => Str::slug($validated_data['name']),
+            'slug' => Str::slug($validated_data['name']).'-'.uniqid(),
             'user_id' => $request->user()->id
          ]);
         
