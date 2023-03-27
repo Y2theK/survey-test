@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\SurveySubmittedEvent;
 use App\Models\Answer;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -32,6 +33,12 @@ class SurveyController extends Controller
                 ]);
             }
         }
+       
+        $data = [
+            'survey' => $survey,
+            'owner' => $survey->user
+        ];
+        event(new SurveySubmittedEvent($data));
         return view('surveySuccess');
     }
 }
