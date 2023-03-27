@@ -10,8 +10,9 @@
 </head>
 
 <body>
-  <div class="p-12">
-    <h1 class="text-green-300">Thanks you</h1>
+  <div class="p-12  flex justify-center align-items-center ">
+    <h1 class="text-center bg-fuchsia-200 p-3 text-base font-semibold leading-7 text-gray-900">Thanks you
+      for answering..</h1>
   </div>
 
 </body>

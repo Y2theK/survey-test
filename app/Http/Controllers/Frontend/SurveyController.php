@@ -22,14 +22,16 @@ class SurveyController extends Controller
         $answer = Answer::create([
          'survey_id' =>  $survey->id
         ]);
-
-        foreach ($validated_data['answers'] as $questionId => $answer) {
-            QuestionAnswer::create([
-                'question_id' => $questionId,
-                'answer_id' => $answer->id,
-                'answer' => $answer
-            ]);
+        foreach ($validated_data['answers'] as $questionId => $answerInput) {
+            //we will not add answer input that are not answered
+            if ($answerInput && $questionId) {
+                QuestionAnswer::create([
+                    'question_id' => $questionId,
+                    'answer_id' => $answer->id,
+                    'answer' =>  $answerInput
+                ]);
+            }
         }
-        return view('thankyou');
+        return view('surveySuccess');
     }
 }

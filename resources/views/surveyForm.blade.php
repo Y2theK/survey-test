@@ -26,7 +26,7 @@
               <label for="{{ $item->id }}" class="block text-sm font-medium leading-6 text-gray-900"> {{ $item->question
                 }}</label>
               <div class="mt-1">
-                <input type="{{ $item->type }}" name="answers[{{$item->id}}] " id="{{ $item->id }}"
+                <input type="{{ $item->type }}" name="answers[{{$item->id}}] " id="{{ $item->id }}" required
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 
               </div>
