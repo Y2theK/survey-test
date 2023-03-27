@@ -1,66 +1,221 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Survey Form with dynamic questions
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Description
+In this app, 
+User can register,login and logout.
+To create or view survey user must authenticate.
+User can create surveys with dynamic questions and different question types.
+Customers can submit the survey in published survey link.
+After submitting the survey, an email will be sent to survey's owner.
 
-## About Laravel
+## Installation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Use PHP 8+, Laravel 10+ and MySQL.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```shell
+git clone https://github.com/Y2theK/survey-test.git
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```shell
+cp .env.example .env
+```
+```shell
+composer install
+```
 
-## Learning Laravel
+```shell
+php artisan key:generate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```shell
+npm install && npm run dev
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**That's it!**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<br/>
 
-## Laravel Sponsors
+## Backend API Routes
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### Auth Routes
 
-### Premium Partners
+```shell
+POST : {{base_url}}/v1/register 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Example Input : 
+{
+    "name" : "Jon Doe",
+    "email" : "jondoe@gmail.com",
+    "password" : "12312312"
+}
 
-## Contributing
+Example Output : 
+{
+    "user": {
+        "name": "Jon Doe",
+        "email": "jondoe@gmail.com"
+    },
+    "token": "5|VzxTlDSJvFQv7bVBcRkP3Jai68yYovp5PUFgCrqB",
+    "token-type": "Bearer"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```shell
+POST : {{base_url}}/v1/login
 
-## Code of Conduct
+Example Input : 
+{
+    
+    "email" : "jondoe@gmail.com",
+    "password" : "12312312"
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Example Output : 
+{
+    "user": {
+        "name": "Jon Doe",
+        "email": "jondoe@gmail.com"
+    },
+    "token": "5|VzxTlDSJvFQv7bVBcRkP3Jai68yYovp5PUFgCrqB",
+    "token-type": "Bearer"
+}
+```
 
-## Security Vulnerabilities
+```shell
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+POST : {{base_url}}/v1/logout
 
-## License
+Example Output : 
+{
+    "message": "User loggout "
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Surveys Routes ( NEED TO AUTHENTICATE )
+
+```shell
+GET : {{base_url}}/v1/surveys
+
+Example Output : 
+{
+    "message": "Get All Surveys",
+    "data": {
+        "surveys": [
+            {
+               "id": 1,
+                "name": "super survey",
+                "slug": "super-survey-12345",
+                "questions": [
+                    {
+                        "id": 1,
+                        "question": "Favorite Movie",
+                        "type": "text"
+                    },
+                ]
+            }
+            {
+                "id": 2,
+                "name": "super survey",
+                "slug": "super-survey-23543",
+                "questions": [
+                    {
+                        "id": 2,
+                        "question": "name",
+                        "type": "text"
+                    },
+                    {
+                        "id": 3,
+                        "question": "DOB",
+                        "type": "date"
+                    },
+                    {
+                        "id": 3,
+                        "question": "Phone",
+                        "type": "number"
+                    },
+                ]
+            },
+        }
+    }
+}
+
+```
+
+```shell
+GET : {{base_url}}/v1/surveys/{surveyId}
+
+Example Output : 
+{
+    "message": "Get Survey",
+    "data": {
+        "id": 1,
+        "name": "Pyay kyi",
+        "slug": "pyay-kyi-6421b97e526e4",
+        "questions": [
+            {
+                "id": 1,
+                "question": "Your Lucky Number",
+                "type": "number"
+            },
+            {
+                "id": 2,
+                "question": "Your Mom Birthday",
+                "type": "date"
+            }
+        ]
+    }
+}
+```
+
+```shell
+POST : {{base_url}}/v1/surveys
+
+Example Input : 
+    name : "Pyay kyi",
+    questions[0][type] : "text"
+    questions[0][question] : "Favorite Color"
+    questions[1][type] : "date"
+    questions[1][question] : "Birth Date"
+    
+Example Output : 
+{
+    "message": "Survey Created",
+    "data": {
+        "id": 24,
+        "name": "Pyay kyi",
+        "slug": "pyay-kyi-6421b97e526e4",
+        "questions": [
+            {
+                "id": 86,
+                "question": "Favorite Color",
+                "type": "text"
+            },
+            {
+                "id": 87,
+                "question": "Birth Date",
+                "type": "date"
+            }
+        ]
+    }
+}
+```
+
+```shell
+DELETE : {{base_url}}/v1/surveys/{surveyId}
+
+Example Output : 
+{
+    "message": "Survey Deleted"
+}
+
+```
+
+## Public ROUTES
+```shell
+GET : {{base_url}}/survey-form/{surveySlug}
+
+POST : {{base_url}}/survey-form/{surveySlug}
+```
+
+## Example Email
+ ![Survey Submitted mail](https://.png)
