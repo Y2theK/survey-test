@@ -1,0 +1,21 @@
+Surveys
+=====
+id 	name 		slug user_id
+
+Questions
+=========
+id	survey_id	   type         question
+
+Answer
+======
+id	  survey_id 	
+
+Question_Answer
+===============
+id	question_id		answer_id		answer	
+
+
+
+Surveys ( one - to - many ) Questions
+Surveys ( one - to -many)  Questions
+Questions ( many - to - many ) Answers
