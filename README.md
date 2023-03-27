@@ -218,8 +218,4 @@ POST : {{base_url}}/survey-form/{surveySlug}
 ```
 
 ## Example Email
-<<<<<<< HEAD
- ![Survey Submitted mail](https://.png)
-=======
 <img src="https://github.com/Y2theK/survey-test/blob/master/public/mailSS.png" alt="Survey Submitted Mail" width="50%">
->>>>>>> f5b99b90504d596c58db48642a0eb05a9feb840c
