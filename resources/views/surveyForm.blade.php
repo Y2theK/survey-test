@@ -10,7 +10,6 @@
 </head>
 
 <body>
-  <h1 class="text-red-500"> Survey Form</h1>
 
 
   <div class="p-12">
@@ -18,7 +17,7 @@
       @csrf
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">{{ $survey->name }}</h2>
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Survey Name - {{ $survey->name }}</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what
             you share.</p>
           <div class="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6 ">
@@ -27,7 +26,7 @@
               <label for="{{ $item->id }}" class="block text-sm font-medium leading-6 text-gray-900"> {{ $item->question
                 }}</label>
               <div class="mt-1">
-                <input type="{{ $item->type }}" name="{{ $item->id }}" id="{{ $item->id }}"
+                <input type="{{ $item->type }}" name="answers[{{$item->id}}] " id="{{ $item->id }}"
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 
               </div>

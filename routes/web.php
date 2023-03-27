@@ -17,5 +17,5 @@ use App\Http\Controllers\Frontend\SurveyController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('survey-form/{survey:slug}', [SurveyController::class,'getSurveyForm']);
+Route::get('survey-form/{survey:slug}', [SurveyController::class,'getSurveyForm'])->name('surveyform.get');
 Route::post('survey-form/{survey:slug}', [SurveyController::class,'storeSurveyAnswer'])->name('surveyform.submit');
