@@ -32,7 +32,7 @@ class SendEmailToOwner
                 'answers' =>  $event->data['answers'],
             ];
         
-            Mail::to('a@gmail.com')->send(new SurveySubmittedMail($mailData));
+            Mail::to($ownerEmail)->send(new SurveySubmittedMail($mailData));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
