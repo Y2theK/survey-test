@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Survey extends Model
 {
     use HasFactory;
     protected $fillable = ['user_id','name','slug'];
+    
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'survey_id');
+    }
 }

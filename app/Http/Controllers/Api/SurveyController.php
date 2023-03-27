@@ -2,51 +2,58 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Survey;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SurveyResource;
+use App\Http\Requests\SurveyCreateRequest;
+use App\Models\Question;
+use Illuminate\Support\Facades\Validator;
 
 class SurveyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $surveys = Survey::all();
+        return response()->json([ 'surveys' =>  SurveyResource::collection($surveys)], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(SurveyCreateRequest $request)
     {
-        //
+        $validated_data = $request->validated();
+        $survey = Survey::create([
+            'name' => $validated_data['name'],
+            'slug' => Str::slug($validated_data['name']),
+            'user_id' => $request->user()->id
+         ]);
+        
+        foreach ($validated_data['questions'] as $question) {
+            $question['survey_id'] = $survey->id;
+            $this->createQuestion($question);
+        }
+        return new SurveyResource($survey);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    private function createQuestion($question)
     {
-        //
-    }
+        $validated_data= Validator::make($question, [
+            'question' => 'required|string',
+            'survey_id' => 'required|exists:surveys,id',
+            'type' => 'required|in:text,date,number'
+        ])->validate();
 
+        $question = Question::create($validated_data);
+        return $question;
+    }
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Survey $survey)
     {
-        //
+        return new SurveyResource($survey);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
+  
     /**
      * Update the specified resource in storage.
      */
@@ -58,8 +65,17 @@ class SurveyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Survey $survey, Request $request)
     {
-        //
+        if ($request->user()->id !== $survey->user_id) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+        $survey->questions()->delete();
+        $survey->delete();
+        return response()->json([
+            'message' => 'Survey deleted'
+        ], 200);
     }
 }
