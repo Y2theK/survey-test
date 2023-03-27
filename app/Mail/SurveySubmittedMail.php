@@ -28,7 +28,7 @@ class SurveySubmittedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your ' .$this->mailData['survey']->name. ' Survey Got Answer...',
+            subject: 'Your ' . $this->mailData['survey']->name . ' Survey Got Answer...',
         );
     }
 
